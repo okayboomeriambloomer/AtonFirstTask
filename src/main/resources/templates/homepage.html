@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+</head>
+<body>
+<div>
+    <div style="float: left;">
+        <div style="margin-left: 178px;">Найти по:</div>
+        <form th:action="@{/}" th:method="get">
+            <input type="hidden" th:name="selected" th:value="name">
+            <input th:name="inputField" placeholder="Name" th:value="${name}">
+            <button type="submit" class="button">Name</button>
+        </form>
+        <form th:action="@{/}" th:method="get">
+            <input type="hidden" th:name="selected" th:value="value">
+            <input th:name="inputField" placeholder="Value" th:value="${value}">
+            <button type="submit" class="button">Value</button>
+        </form>
+        <form th:action="@{/}" th:method="get">
+            <input type="hidden" th:name="selected" th:value="account">
+            <input th:name="inputField" placeholder="Account" th:value="${account}">
+            <button type="submit" class="button">Account</button>
+        </form>
+        <hr>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Account</th>
+                <th>Name</th>
+                <th>Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="person:${persons}">
+                <td th:text="${person.getAccount()}"/>
+                <td th:text="${person.getName()}"/>
+                <td th:text="${person.getValue()}"/>
+                <td>
+                <form th:action="@{/}" th:method="post">
+                    <input type="hidden" name="_method" value="patch">
+                    <button type="submit" class="button">Обновить</button>
+                </form>
+                </td>
+                <td>
+                <form th:action="@{/}" th:method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit" class="button">Удалить</button>
+                </form>
+                </td>
+            </tbody>
+        </table>
+        <label th:text="${notExits}">0</label>
+    </div>
+
+</div>
+</body>
+</html>

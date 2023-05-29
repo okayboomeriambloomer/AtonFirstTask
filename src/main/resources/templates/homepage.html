@@ -38,20 +38,22 @@
                 <td th:text="${person.getName()}"/>
                 <td th:text="${person.getValue()}"/>
                 <td>
-                <form th:action="@{/}" th:method="post">
-                    <input type="hidden" name="_method" value="patch">
-                    <button type="submit" class="button">Обновить</button>
-                </form>
+                    <form th:action="@{/{id}/edit(id=${person.getAccount()})}" th:method="get">
+                        <button type="submit" class="button">Обновить</button>
+                    </form>
                 </td>
                 <td>
-                <form th:action="@{/}" th:method="post">
-                    <input type="hidden" name="_method" value="delete">
+                <form  th:action="@{/{id}(id=${person.getAccount()})}" th:method="delete">
                     <button type="submit" class="button">Удалить</button>
                 </form>
                 </td>
             </tbody>
         </table>
-        <label th:text="${notExits}">0</label>
+        <label th:text="${msg}">Етого никто не увидит..</label>
+        <br>
+        <form th:action="@{/new}" th:method="get">
+            <button type="submit" class="button">Добавить нового человека</button>
+        </form>
     </div>
 
 </div>

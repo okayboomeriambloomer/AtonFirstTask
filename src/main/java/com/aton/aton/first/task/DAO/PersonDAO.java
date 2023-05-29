@@ -8,7 +8,7 @@ import java.util.*;
 @Component
 public class PersonDAO {
 
-    private Long indexOfNextAccount = 0L;
+    private long indexOfNextAccount = 0L;
     private Map<Long, Person> mapOnKeyAccount;
     private Map<String, List<Person>> mapOnKeyName;
     private Map<Double, List<Person>> mapOnKeyValue;
@@ -40,6 +40,10 @@ public class PersonDAO {
         mapOnKeyValue.get(person2.getValue()).add(person2);
     }
 
+    public Person findPerson(long idAccount) {
+        return mapOnKeyAccount.get(idAccount);
+    }
+
     public List<Person> getPersonByAccount(long idAccount) {
         return (mapOnKeyAccount.containsKey(idAccount)) ? List.of(mapOnKeyAccount.get(idAccount)) : null;
     }
@@ -50,5 +54,42 @@ public class PersonDAO {
 
     public List<Person> getPersonByValue(Double value) {
         return mapOnKeyValue.get(value);
+    }
+
+    public void deletePerson(long accountId) {
+        Person person = mapOnKeyAccount.get(accountId);
+        mapOnKeyAccount.remove(person.getAccount());
+
+        mapOnKeyName.get(person.getName()).remove(person);
+        if (mapOnKeyName.get(person.getName()).isEmpty()) mapOnKeyName.remove(person.getName());
+
+        mapOnKeyValue.get(person.getValue()).remove(person);
+        if (mapOnKeyValue.get(person.getValue()).isEmpty()) mapOnKeyValue.remove(person.getValue());
+    }
+
+    public void updatePerson(long account, Person person) {
+        person.setAccount(account);
+        deletePerson(account);
+        addToMaps(person);
+    }
+
+    public void addToMaps(Person person) {
+        mapOnKeyAccount.put(person.getAccount(), person);
+
+        mapOnKeyName.putIfAbsent(person.getName(), new ArrayList<>());
+        mapOnKeyName.get(person.getName()).add(person);
+
+        mapOnKeyValue.putIfAbsent(person.getValue(), new ArrayList<>());
+        mapOnKeyValue.get(person.getValue()).add(person);
+    }
+
+    public void save(Person person) {
+        if (mapOnKeyAccount.size() == Integer.MAX_VALUE) return; // Максимум записей достигнут
+        while (mapOnKeyAccount.containsKey(indexOfNextAccount)) {
+            indexOfNextAccount++;
+            if (indexOfNextAccount == Integer.MAX_VALUE) indexOfNextAccount = 0L;
+        }
+        person.setAccount(indexOfNextAccount++);
+        addToMaps(person);
     }
 }

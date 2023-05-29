@@ -1,9 +1,12 @@
 package com.aton.aton.first.task.model;
 
 public class Person {
-    private long account;
     private String name;
     private double value;
+    private long account;
+
+    public Person() {
+    }
 
     public Person(long account, String name, double value) {
         this.account = account;

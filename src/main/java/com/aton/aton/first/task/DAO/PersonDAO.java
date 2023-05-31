@@ -9,9 +9,9 @@ import java.util.*;
 public class PersonDAO {
 
     private long indexOfNextAccount = 0L;
-    private Map<Long, Person> mapOnKeyAccount;
-    private Map<String, List<Person>> mapOnKeyName;
-    private Map<Double, List<Person>> mapOnKeyValue;
+    private final Map<Long, Person> mapOnKeyAccount;
+    private final Map<String, List<Person>> mapOnKeyName;
+    private final Map<Double, List<Person>> mapOnKeyValue;
 
     {
         Person person = new Person(indexOfNextAccount++, "Anton", 123.456);
